@@ -86,3 +86,45 @@ app.get('/listpeminjaman',(req,res)=>{
     })
 
 })
+
+router.post('/register', (req, res) => {
+    const { nama_first_name, nama_last_name, email, password, alamat, no_telepon } = req.body;
+        const query = `INSERT INTO peminjam (nama_first_name, nama_last_name, email, password, alamat, is_admin, no_telepon) VALUES ( '${nama_first_name}','${nama_last_name}', '${email}', '${password}', '${alamat}', '${true}', '${no_telepon}'); `;
+        db.query(query, (err, results) => {
+            if (err){
+                console.error(err);
+                alert('Registrasi gagal dilakukan!')
+                return;
+            }else{
+                console.log(results);
+                console.log("Data insert berhasil");
+            }
+        });
+    res.end('done');
+});
+
+router.post('/register', (req, res) => {
+    temp = req.session;
+    temp.nama_first_name = req.body.nama_first_name;
+    temp.nama_last_name = req.body.nama_last_name;
+    temp.password = req.body.pass;
+    const { email, alamat, no_telepon } = req.body;
+        bcrypt.hash(temp.password, 10, function (err, hash) {
+        const query =
+            `INSERT INTO peminjam (nama_first_name, nama_last_name, email, password, alamat, is_admin, no_telepon) VALUES ( '${temp.nama_first_name}','${temp.nama_last_name}', '${email}', '${hash}', '${alamat}', '${true}', '${no_telepon}'); `;
+      
+        db.query(query, (err, results) => {
+        // tambahkan konfigurasi registrasi di sini
+                if (err){
+                    console.error(err);
+                    alert('Registrasi gagal dilakukan!')
+                    return;
+            }else{
+                console.log(results);
+                console.log("Data insert berhasil");
+            }
+        });
+    });
+    
+    res.end('done');
+});
