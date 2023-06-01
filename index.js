@@ -1,6 +1,6 @@
 //import packages
 const express = require('express');
-const session = require('express-session');
+const session = require('express-session'); 
 const bodyParser = require('body-parser');
  
 //initialize the app as an express app
@@ -103,58 +103,130 @@ router.get('/caripenulisbuku',(req,res)=>{
     })
 })
 
+
+
 //routing TABEL PINJAM_BUKU
 //membuat pinjaman buku
 
+
+
 //routing TABEL PEMINJAM
-//login
+//melakukan logim peminjam
 router.post('/login', (req, res) => {
     temp = req.session;
-    temp.nama_first_name = req.body.nama_first_name;
-    temp.nama_last_name = req.body.nama_last_name;
-    temp.password = req.body.pass;
-    const query = `SELECT password FROM peminjam WHERE nama_first_name AND nama_last_name LIKE '${temp.nama_first_name}', '${temp.nama_last_name}', `;  //query ambil data user untuk login
+    const query = ""; //query ambil data user untuk login
 
     //mengecek informasi yang dimasukkan user apakah terdaftar pada database
     db.query(query, (err, results) => {
        //tambahkan konfigurasi login di sini
-       console.log(results.rows[0].password);
-	   if(err){
-		   alert('Maaf, Login Gagal!');
-		   res.edm('fail')
-	   }
+        const email = req.body.email;
+        const password = req.body.password;
 
-       bcrypt.compare(temp.password, results.rows[0].password,
-        (err, result) => {
-            if(err){
-                res.end('fail');
+        // Retrieve the hashed password from the database for the given username
+        const query = `SELECT password FROM peminjam WHERE email = '${email}'`;
+        db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error executing query', err.stack);
+            return res.send('fail'); // Return 'fail' if an error occurs during the query execution
+        }
+
+        if (results.rows.length === 0) {
+            return res.send('fail-username'); // Return 'fail-username' if the username is not found
+        }
+
+        const hashedPassword = results.rows[0].password;
+
+        // Compare the provided password with the hashed password
+        bcrypt.compare(password, hashedPassword, (err, passwordMatch) => {
+            if (err) {
+            console.error('Error comparing passwords', err);
+            return res.send('fail'); // Return 'fail' if an error occurs during password comparison
             }
-            res.end('done');
+
+            if (passwordMatch) {
+            // Set the user's username and visits in the session
+            req.session.email = email;
+            //req.session.visits = 1;
+
+            return res.send('berhasil'); // Return 'done' if login is successful
+            } else {
+            return res.send('fail-password'); // Return 'fail-password' if the password is incorrect
+            }
         });
     });
- 
+});
 });
 
-//register
+//melakukan registrasi peminjam
 router.post('/register', (req, res) => {
-    const { nama_first_name, nama_last_name, email, password, alamat, no_telepon } = req.body;
-        const query = `INSERT INTO peminjam (nama_first_name, nama_last_name, email, password, alamat, is_admin, no_telepon) VALUES ( '${nama_first_name}','${nama_last_name}', '${email}', '${password}', '${alamat}', '${true}', '${no_telepon}'); `;
+    const {name, email, password} = req.body
+    temp = req.session;
+    temp.name = req.body.name;
+    temp.email = req.body.email;
+    temp.password = req.body.password;
+    const saltRounds = 10
+    //melakukan konfigurasi bycrpty disini
+    bcrypt.hash(temp.password, 8, (err, hashedPassword) => {
+        if (err) {
+            alert("Hash Gagal")
+            return;
+        }
+        //melakukan registrasi user baru ke dalam database
+        const query = `INSERT INTO peminjam (name, email, password, is_admin) VALUES
+        ('${temp.name}', '${temp.email}', '${hashedPassword}', FALSE);`
         db.query(query, (err, results) => {
-            if (err){
+            if (err) {
                 console.error(err);
-                alert('Registrasi gagal dilakukan!')
+                alert("Registrasi Gagal");
                 return;
-            }else{
+              } else {
                 console.log(results);
-                console.log("Data insert berhasil");
-            }
+                console.log("Registrasi Berhasil");
+              }
         });
+    });
+    
     res.end('done');
 });
 
+//mengupdate akun peminjam
+router.put('/updatepeminjam',(req,res)=>{
+    const { peminjam_id, name, email, password } = req.body
+    //temp.password = req.body.password;
+        const saltRounds = 10
+        //melakukan konfigurasi bycrpty disini
+        bcrypt.hash(password, 8, (err, hashedPassword) => {
+            if (err) {
+                alert("Hash Gagal")
+            return;
+            }
+            db.query(`UPDATE peminjam SET name='${name}', email='${email}', password='${hashedPassword}'WHERE peminjam_id=${peminjam_id}`,
+            (err)=>{
+            if(err){
+                console.log(err)
+                return
+            }
+        
+            res.send(`Data peminjam dengan ID ${peminjam_id} berhasil diupdate`)
+            })
+        });
+        
+    
+})
+
+//menghapus akun peminjam
+router.delete('/deletepeminjam',(req,res)=>{
+    const { peminjam_id } = req.body;
+    db.query(`DELETE FROM peminjam WHERE peminjam_id=${peminjam_id}`,(err)=>{
+    if(err){
+        console.log(err)
+        return
+    }
+    res.send(`Berhasil Menghapus data Peminjam dengan ID ${peminjam_id}`)
+})
+})
+
 //routing TABEL RATING
-
-
 
 app.use('/', router);
 

@@ -87,17 +87,17 @@ app.get('/listpeminjaman',(req,res)=>{
 
 })
 
-router.post('/register', (req, res) => {
-    const { nama_first_name, nama_last_name, email, password, alamat, no_telepon } = req.body;
-        const query = `INSERT INTO peminjam (nama_first_name, nama_last_name, email, password, alamat, is_admin, no_telepon) VALUES ( '${nama_first_name}','${nama_last_name}', '${email}', '${password}', '${alamat}', '${true}', '${no_telepon}'); `;
+app.post('/register', (req, res) => {
+    const { name, email, password } = req.body;
+        const query = `INSERT INTO peminjam (name, email, password) VALUES ( '${name}', '${email}', '${password}'); `;
         db.query(query, (err, results) => {
             if (err){
                 console.error(err);
-                alert('Registrasi gagal dilakukan!')
+                alert('Registrasi gagal dilakukan!');
                 return;
             }else{
                 console.log(results);
-                console.log("Data insert berhasil");
+                console.log("berhasil register");
             }
         });
     res.end('done');
