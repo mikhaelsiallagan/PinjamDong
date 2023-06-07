@@ -95,22 +95,36 @@ router.get('/cari',(req,res)=>{
 //membuat pinjaman buku
 router.post('/tambahpinjaman',(req,res)=>{
     const { peminjam_id, judul, tanggal_pinjam, tanggal_kembali  } = req.body;
-     db.query(`INSERT INTO pinjam_buku(peminjam_id, judul, tanggal_pinjam, tanggal_kembali) VALUES ('${peminjam_id}', '${judul}', '${tanggal_pinjam}', '${tanggal_kembali}')`,
-     (err)=>{
-         if(err){
-             console.log(err)
+    db.query(`select * from buku where judul = '${judul}' and status='${'Tersedia'}'`, (err,results)=>{
+        if(err){
+            console.log(err)
              return
          }
-         res.send("Berhasil Menambahkan Data Pinjaman")
-        //  db.query(`UPDATE buku SET status='${'Tidak Tersedia'}' WHERE judul='${judul}'`,
-        //  (err)=>{
-        //  if(err){
-        //      console.log(err)
-        //      return
-        //  }
-        //  res.send(`Status Buku dengan judul ${judul} berhasil diupdate`)
-        //  })
+         if(results.rowCount == 0){
+             res.send("Buku tidak tersedia")
+             return
+         } else {
+
+            db.query(`INSERT INTO pinjam_buku(peminjam_id, judul, tanggal_pinjam, tanggal_kembali) VALUES ('${peminjam_id}', '${judul}', '${tanggal_pinjam}', '${tanggal_kembali}')`,
+            (err)=>{
+            if(err){
+                console.log(err)
+                return
+            }
+            console.log("1")
+         db.query(`UPDATE buku SET status='Tidak Tersedia' WHERE judul='${judul}'`,
+         (err)=>{
+         if(err){
+             console.log(err)
+             console.log("7")
+             return
+         }
+         res.send("2")
+         return
+         })
      })
+    }
+    })
  })
  
  //mengupdate status buku pinjam
@@ -127,15 +141,24 @@ router.put('/updatestatuspinjam',(req,res)=>{
 })
 
  //mengupdate status buku selsai
-router.put('/updatestatuselesai',(req,res)=>{
-    const { judul } = req.body
+router.post('/updatestatuselesai',(req,res)=>{
+    const { judul, rating_buku, review } = req.body
     db.query(`UPDATE buku SET status='${'Tersedia'}' WHERE judul='${judul}'`,
     (err)=>{
     if(err){
         console.log(err)
         return
         }
-        res.send(`Status Buku dengan judul ${judul} berhasil diupdate`)
+        console.log("Berhasil queery 1")
+        //const { rating_buku, review } = req.body;
+        db.query(`INSERT INTO rating (judul, rating_buku, review) VALUES ('${judul}', '${rating_buku}', '${review}')`,
+        (err)=>{
+            if(err){
+                console.log(err)
+                return
+            }
+            res.send("Berhasil Menambahkan Rating")
+        })
     })
 })
 

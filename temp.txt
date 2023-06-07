@@ -128,3 +128,37 @@ router.post('/register', (req, res) => {
     
     res.end('done');
 });
+
+//routing TABEL PINJAM_BUKU
+//membuat pinjaman buku
+router.post('/tambahpinjaman',(req,res)=>{
+    const { peminjam_id, judul, tanggal_pinjam, tanggal_kembali  } = req.body;
+    db.query(`select * from buku where judul = '${judul}' and status='${'Tersedia'}'`, (err,results)=>{
+        if(err){
+            console.log(err)
+             return
+         }
+         if(results.rowCount == 0){
+             res.send("Buku tidak tersedia")
+             return
+         } else {
+            db.query(`INSERT INTO pinjam_buku(peminjam_id, judul, tanggal_pinjam, tanggal_kembali) VALUES ('${peminjam_id}', '${judul}', '${tanggal_pinjam}', '${tanggal_kembali}')`,
+            (err)=>{
+            if(err){
+                console.log(err)
+                return
+            }
+            res.send("1")
+            db.query(`UPDATE buku SET status='${'Tidak Tersedia'}' WHERE judul='${judul}'`,
+            (err, res)=>{
+            if(err){
+                console.log(err)
+                return
+            }
+            res.send("2")
+            return
+            })
+        })
+        }
+    })
+ })
