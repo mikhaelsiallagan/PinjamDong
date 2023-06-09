@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css?family=Outfit:wght@100;200;300;400;500;600;700;800;900') format;
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+/* .bg-color{
+    background: #C4DFDF;
+} */
+
+.login{
+    width: 360px;
+    height: min-content;
+    padding: 20px;
+    border-radius: 30px;
+    background: #FFF;
+}
+
+.login h1{
+    font-size: 36px;
+    color: #111;
+    margin-bottom: 25px;
+}
+
+.login form{
+    font-size: 20px;
+}
+
+.login form .form-group{
+    margin-bottom: 12px;
+}
+
+.login form input[type="submit"]{
+    font-size: 20px;
+    margin-top: 15px;
+    border-radius: 30px;
+}
+
+.member{
+    font-size: 20px;
+    margin-top: 14px;
+    color: #111;
+}
+
+.member a{
+    color: rgba(17, 107, 143);
+    text-decoration: none;
+}
+

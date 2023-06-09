@@ -1,209 +1,207 @@
-@import url('https://fonts.googleapis.com/css?family=Outfit:wght@100;200;300;400;500;600;700;800;900') format;
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-
-*{
-    padding: none;
+* {
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
     font-family: 'Outfit', sans-serif;
     list-style: none;
     text-decoration: none;
 }
 
-.root{
-    --bg-color: #C4DFDF;
-    --text-color: #111;
-    --main-color: #29fd53;
+html{
+    scroll-behavior: smooth;
 }
 
-body{
+
+/* Landing Page */
+
+.navbar{
     background: #C4DFDF;
-}
-
-header{
-    position: fixed;
-    right: 0;
-    top: 0;
+    padding: 1rem 8rem;
     z-index: 1000;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 33px 9%;
-    background: transparent;
 }
 
-.logo{
-    font-size: 30px;
+.navbar .navbar-brand{
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #111;
 }
 
-.navlist{
-    display: flex;
+.navbar .navlist .rent-but{
+        background: #198754;
+        font-weight: 600;
+        padding: 0.6rem 1.4rem;
+        margin-right: 20px;
+        border-radius: 30px;
+        text-decoration: none;
 }
 
-.navlist a{
-    color: #111;
-    margin-left: 60px;
-    font-size: 15px;
-    font-weight: 600;
-    border-bottom: 2px solid transparent;
-    transition: all .55s ease;
+.navbar .navlist .rent-but:hover{
+    background: #111;
 }
 
-.navlist a:hover{
-    color: #29fd53;
-}
-
-.logres{
-    display: flex;
-    align-items: center;
-}
-
-.logres a{
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-    margin-right: 25px;
+#navbarSupportedContent > ul > li:nth-child(n) > a{
     color: #111;
     font-size: 1.1rem;
+    padding: 0 0.8rem;
+}
+
+#navbarSupportedContent > ul > li:nth-child(n) > a:hover,
+#navbarSupportedContent > ul > li:nth-child(n) > a:active{
+    color: #198754;
+}
+
+#navbarSupportedContent > button{
+    background: #198754;
+    color: #111;
     font-weight: 600;
-    transition: all .50s ease;
-}
-
-.logres a:hover{
-    color: #29fd53;
-}
-
-.user i{
-    color: #29fd53;
-    font-size: 28px;
-    margin-right: 7px;
-}
-
-
-.hero{
-    height: 100%;
-    width: 100%;
-    min-height: 100vh;
-    background: #C4DFDF;
-    position: relative;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-    gap: 2rem;
-}
-
-section{
-    padding: 0 15%;
-}
-
-.hero-text h1{
-    font-size: 90px;
-    line-height: 1;
-    color: #111;
-    margin: 0 0 45px;
-}
-
-.hero-text p{
-    color: #111;
-    font-size: 20px;
-    line-height: 1.9;
-    margin-bottom: 40px;
-}
-
-.hero-img img{
-    width: 900px;
-    height: auto;
-    margin-right: 45px;
-}
-
-.hero-text a{
-    display: inline-block;
-    color: #fff;
-    background: #111;
-    border: 1px solid transparent;
-    padding: 12px 30px;
-    font-weight: 500;
+    padding: 0.4rem 1.4rem;
     border-radius: 30px;
-    transition: all .55s ease;
 }
 
-.hero-text a:hover{
-    color: #29fd53;
-}
-
-footer{
+#navbarSupportedContent > button:hover{
     background: #111;
-    height: auto;
-    width: 100vw;
-    padding-top: 40px;
-    color: #fff;
 }
 
-.footer-content{
+.mid{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-    text-align: center;
-}
-
-.footer-content h3{
-    font-size: 1.8rem;
-    font-weight: 400;
-    text-transform: capitalize;
-    text-align: center;
-    line-height: 3rem;
-}
-
-.footer p{
-    max-width: 500px;
-    margin: 10px auto;
-    text-align: center;
-    line-height: 28px;
-    font-size: 14px;
-}
-
-.socials{
-    display: flex;
-    align-items: center;
     justify-content: center;
-    margin: 1rem 0 3rem 0;
+    align-content: center;
+    text-align: center;
 }
 
-.socials li{
-    margin: 0 10px;
+.mid video{
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
-.socials a{
+.mid .hero{
+    position: relative;
+}
+
+.mid .hero p{
+    width: 55%;
+    font-size: 1.1rem;
+    letter-spacing: 0.2px;
+    padding-bottom: 1rem;
+}
+
+.mid .hero a{
+    background: #198754;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+    margin-right: 20px;
+    border-radius: 30px;
+    text-decoration: none;
+}
+
+.mid .hero a:hover{
+    background: #111
+}
+
+.about{
+    background: #C4DFDF;
+}
+
+.about .text{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: auto;
+}
+
+.about .text h6{
+    color: #198754;
+    font-weight: 800;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+}
+
+.about .text h2{
+    color: #111;
+    font-weight: 700;
+    font-size: 3rem;
+}
+
+.about .text p{
+    color: #111;
+    font-weight: 400;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.about .text a{
+    background: #198754;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+    border-radius: 30px;
+    text-decoration: none;
     color: #fff;
 }
 
-.socials a i{
-    font-size: 1.1rem;
-    transition: all .55s ease;
+.about .text a:hover{
+    background: #111
 }
 
-.socials a:hover i{
-    color: #29fd53;
+.tnc{
+    background: #1a1e21;
 }
 
-.footer-buttom{
-    background: #000;
-    width: 100vw;
-    padding: 20px 0;
+.tnc .one{
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    padding: 2rem, 1.5rem;
+    border-radius: 7px;
 }
 
-.footer-buttom p{
-    font-size: 14px;
-    word-spacing: 2px;
-    text-transform: capitalize;
+@media screen and (max-width: 988px){
+    .navbar{
+        padding: 1rem;
+    }
+
+    #navbarSupportedContent > ul{
+        padding-left: 0.8rem;
+    }
+
+    #navbarSupportedContent > ul > li:nth-child(n) > a{
+        padding: 0.8rem 0;
+    }
+
+    .mid .hero h2{
+        font-size: 2.5rem;
+    }
+
+    .mid .hero p{
+        font-size: 1.1rem;
+    }
+    
+    .mid .hero a{
+        font-size: 0.9rem;
+    }
 }
 
-.footer-buttom span{
-    opacity: 0.5;
-    font-weight: 200;
-}
+
+/* Home Page */
+
+
+
+
+
+
+
+/* Admin Page */
