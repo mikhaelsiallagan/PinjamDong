@@ -42,8 +42,20 @@ router.get('/listbuku',(req,res)=>{
 
 //menambahkan daftar buku
 router.post('/tambahbuku',(req,res)=>{
+    temp = req.session;
+    temp.judul = req.body.judul;
+    temp.penulis = req.body.penulis;
+    temp.penerbit = req.body.penerbit;
+    temp.tahun_terbit = req.body.tahun_terbit;
+    temp.jumlah_halaman = req.body.jumlah_halaman;
+    temp.kategori_buku = req.body.kategori_buku;
+    temp.status = req.body.status;
+    if(temp.judul.length == 0 || temp.penulis.length == 0 || temp.penerbit.length == 0 || temp.tahun_terbit.length == 0 || temp.jumlah_halaman.length == 0 || temp.kategori_buku.length == 0 || temp.status.length == 0){
+        console.log("Tambah Buku Gagal, Data Buku Tidak Lengkap")
+        return
+    }
    const {judul, penulis, penerbit, tahun_terbit, jumlah_halaman, kategori_buku, status} = req.body;
-    db.query(`INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, jumlah_halaman, kategori) VALUES ('${judul}', '${penulis}', '${penerbit}', ${tahun_terbit}, ${jumlah_halaman}, '${kategori_buku}', '${status}')`,
+    db.query(`INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, jumlah_halaman, kategori_buku, status) VALUES ('${judul}', '${penulis}', '${penerbit}', ${tahun_terbit}, ${jumlah_halaman}, '${kategori_buku}', '${status}')`,
     (err)=>{
         if(err){
             console.log(err)
@@ -55,6 +67,19 @@ router.post('/tambahbuku',(req,res)=>{
 
 //mengupdate daftar buku
 router.put('/updatebuku',(req,res)=>{
+    temp = req.session;
+    temp.buku_id = req.body.buku_id;
+    temp.judul = req.body.judul;
+    temp.penulis = req.body.penulis;
+    temp.penerbit = req.body.penerbit;
+    temp.tahun_terbit = req.body.tahun_terbit;
+    temp.jumlah_halaman = req.body.jumlah_halaman;
+    temp.kategori_buku = req.body.kategori_buku;
+    temp.status = req.body.status;
+    if(temp.judul.length == 0 || temp.penulis.length == 0 || temp.penerbit.length == 0 || temp.tahun_terbit.length == 0 || temp.jumlah_halaman.length == 0 || temp.kategori_buku.length == 0 || temp.status.length == 0){
+        console.log("Update Buku Gagal, Data Buku Tidak Lengkap")
+        return
+    }
     const {buku_id, judul, penulis, penerbit, tahun_terbit, jumlah_halaman, kategori_buku, status} = req.body
     db.query(`UPDATE buku SET judul='${judul}', penulis='${penulis}', penerbit='${penerbit}', tahun_terbit='${tahun_terbit}', jumlah_halaman='${jumlah_halaman}', kategori_buku='${kategori_buku}', status='${status}' WHERE buku_id=${buku_id}`,
     (err)=>{
@@ -68,13 +93,14 @@ router.put('/updatebuku',(req,res)=>{
 
 //menghapus daftar buku
 router.delete('/deletebuku',(req,res)=>{
-        const { buku_id } = req.body;
-        db.query(`DELETE FROM buku WHERE buku_id=${buku_id}`,(err)=>{
-        if(err){
-            console.log(err)
-            return
-        }
-        res.send(`Berhasil Menghapus Buku dengan ID ${buku_id}`)
+
+    const { buku_id } = req.body;
+    db.query(`DELETE FROM buku WHERE buku_id=${buku_id}`,(err)=>{
+    if(err){
+        console.log(err)
+        return
+    }
+    res.send(`Berhasil Menghapus Buku dengan ID ${buku_id}`)
     })
 })
 
@@ -84,6 +110,7 @@ router.get('/cari',(req,res)=>{
     db.query(`SELECT * FROM buku WHERE judul ILIKE '%${judul}%' OR penulis ILIKE '%${penulis}%'`,(err,results)=>{
         if(err){
             console.log(err)
+            err.send("Pencarian Gagal")
             return
         }
         res.send(results.rows)
@@ -94,6 +121,15 @@ router.get('/cari',(req,res)=>{
 //routing TABEL PINJAM_BUKU
 //membuat pinjaman buku
 router.post('/tambahpinjaman',(req,res)=>{
+    temp = req.session;
+    temp.peminjam_id = req.body.peminjam_id;
+    temp.judul = req.body.judul;
+    temp.tanggal_pinjam = req.body.tanggal_pinjam;
+    temp.tanggal_kembali = req.body.tanggal_kembali;
+    if(temp.peminjam_id.length == 0 || temp.judul.length == 0 || temp.tanggal_pinjam.length == 0 || temp.tanggal_kembali.length == 0){
+        console.log("Tambah Pinjaman Gagal, Data Pinjaman Tidak Lengkap")
+        return
+    }
     const { peminjam_id, judul, tanggal_pinjam, tanggal_kembali  } = req.body;
     db.query(`select * from buku where judul = '${judul}' and status='${'Tersedia'}'`, (err,results)=>{
         if(err){
@@ -111,15 +147,16 @@ router.post('/tambahpinjaman',(req,res)=>{
                 console.log(err)
                 return
             }
-            console.log("1")
+            console.log("Berhasil menambahkan pinjaman buku")
          db.query(`UPDATE buku SET status='Tidak Tersedia' WHERE judul='${judul}'`,
          (err)=>{
          if(err){
              console.log(err)
-             console.log("7")
+             console.log("Berhasil Mengupdate status buku")
              return
          }
-         res.send("2")
+         console.log("Buku Tersedia")
+         res.send("Buku Tersedia")
          return
          })
      })
@@ -142,6 +179,12 @@ router.put('/updatestatuspinjam',(req,res)=>{
 
  //mengupdate status buku selsai
 router.post('/updatestatuselesai',(req,res)=>{
+    temp = req.session;
+    temp.judul = req.body.judul;
+    if(temp.judul.length == 0){
+        console.log("Update Status Gagal, Data Buku Tidak Lengkap")
+        return
+    }
     const { judul, rating_buku, review } = req.body
     db.query(`UPDATE buku SET status='${'Tersedia'}' WHERE judul='${judul}'`,
     (err)=>{
@@ -149,7 +192,7 @@ router.post('/updatestatuselesai',(req,res)=>{
         console.log(err)
         return
         }
-        console.log("Berhasil queery 1")
+        console.log("Berhasil Mengupdate status buku")
         //const { rating_buku, review } = req.body;
         db.query(`INSERT INTO rating (judul, rating_buku, review) VALUES ('${judul}', '${rating_buku}', '${review}')`,
         (err)=>{
@@ -221,9 +264,10 @@ router.post('/login', (req, res) => {
        //tambahkan konfigurasi login di sini
         const email = req.body.email;
         const password = req.body.password;
+        //const peminjam_id = req.body.peminjam_id;
 
         // Retrieve the hashed password from the database for the given username
-        const query = `SELECT password FROM peminjam WHERE email = '${email}'`;
+        const query = `SELECT password, peminjam_id FROM peminjam WHERE email = '${email}'`;
         db.query(query, (err, results) => {
         if (err) {
             console.error('Error executing query', err.stack);
@@ -235,6 +279,7 @@ router.post('/login', (req, res) => {
         }
 
         const hashedPassword = results.rows[0].password;
+        const peminjam_id = results.rows[0].peminjam_id;
 
         // Compare the provided password with the hashed password
         bcrypt.compare(password, hashedPassword, (err, passwordMatch) => {
@@ -246,7 +291,9 @@ router.post('/login', (req, res) => {
             if (passwordMatch) {
             // Set the user's username and visits in the session
             req.session.email = email;
-            //req.session.visits = 1;
+            req.session.password = password;
+            req.session.peminjam_id = peminjam_id;
+            req.session.visits = 1;
 
             return res.send('User Berhasil melakukan login'); // Return 'done' if login is successful
             } else {
@@ -326,6 +373,13 @@ router.delete('/deletepeminjam',(req,res)=>{
 
 //routing TABEL RATING
 router.post('/tambahratingbuku',(req,res)=>{
+    temp = req.session;
+    temp.buku_id = req.body.buku_id;
+    temp.judul = req.body.judul;
+    if(temp.buku_id.length == 0 || temp.judul.length == 0){
+        console.log("Tambah Rating Gagal, Data Buku Tidak Lengkap")
+        return
+    }
     const { buku_id, judul, rating_buku, review } = req.body;
      db.query(`INSERT INTO rating (buku_id, judul, rating_buku, review) VALUES ('${buku_id}', '${judul}', '${rating_buku}', '${review}')`,
      (err)=>{
@@ -347,7 +401,11 @@ router.post('/tambahratingbuku',(req,res)=>{
     })
 })
 
- 
+app.get('/session', (req, res) => {
+    const sessionData = req.session;
+    res.json(sessionData);
+});
+
 app.use('/', router);
 
 // //Insiasi koneksi ke database
