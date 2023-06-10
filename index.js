@@ -124,9 +124,7 @@ router.post('/tambahpinjaman',(req,res)=>{
     temp = req.session;
     temp.peminjam_id = req.body.peminjam_id;
     temp.judul = req.body.judul;
-    temp.tanggal_pinjam = req.body.tanggal_pinjam;
-    temp.tanggal_kembali = req.body.tanggal_kembali;
-    if(temp.peminjam_id.length == 0 || temp.judul.length == 0 || temp.tanggal_pinjam.length == 0 || temp.tanggal_kembali.length == 0){
+    if(temp.peminjam_id.length == 0 || temp.judul.length == 0){
         console.log("Tambah Pinjaman Gagal, Data Pinjaman Tidak Lengkap")
         return
     }
@@ -141,7 +139,7 @@ router.post('/tambahpinjaman',(req,res)=>{
              return
          } else {
 
-            db.query(`INSERT INTO pinjam_buku(peminjam_id, judul, tanggal_pinjam, tanggal_kembali) VALUES ('${peminjam_id}', '${judul}', '${tanggal_pinjam}', '${tanggal_kembali}')`,
+            db.query(`INSERT INTO pinjam_buku(peminjam_id, judul, tanggal_pinjam, tanggal_kembali) VALUES ('${peminjam_id}', '${judul}', '${tanggal_pinjam}', date '${tanggal_pinjam}' + 14)`,
             (err)=>{
             if(err){
                 console.log(err)
@@ -155,7 +153,7 @@ router.post('/tambahpinjaman',(req,res)=>{
              console.log("Berhasil Mengupdate status buku")
              return
          }
-         console.log("Buku Tersedia")
+         console.log(`Berhasil menambahkan pinjaman buku '${judul}'`)
          res.send("Buku Tersedia")
          return
          })
@@ -206,7 +204,37 @@ router.post('/updatestatuselesai',(req,res)=>{
 })
 
  //routing TABEL ADMIN
- //routing TABEL PEMINJAM
+//melakukan registrasi admin
+router.post('/registeradmin', (req, res) => {
+    const {name, email, password} = req.body
+    temp = req.session;
+    temp.username = req.body.username;
+    temp.password = req.body.password;
+    const saltRounds = 10
+    //melakukan konfigurasi bycrpty disini
+    bcrypt.hash(temp.password, 8, (err, hashedPassword) => {
+        if (err) {
+            alert("Hash Gagal")
+            return;
+        }
+        //melakukan registrasi user baru ke dalam database
+        const query = `INSERT INTO admin (username, password) VALUES
+        ('${temp.username}', '${hashedPassword}');`
+        db.query(query, (err, results) => {
+            if (err) {
+                console.error(err);
+                alert("Registrasi Gagal");
+                return;
+              } else {
+                console.log(results);
+                console.log("Registrasi Berhasil");
+              }
+        });
+    });
+    
+    res.end('done');
+});
+
 //melakukan logim peminjam
 router.post('/loginadmin', (req, res) => {
     temp = req.session;
@@ -219,7 +247,7 @@ router.post('/loginadmin', (req, res) => {
         const password = req.body.password;
 
         // Retrieve the hashed password from the database for the given username
-        const query = `SELECT password FROM peminjam WHERE username = '${username}'`;
+        const query = `SELECT password FROM admin WHERE username = '${username}'`;
         db.query(query, (err, results) => {
         if (err) {
             console.error('Error executing query', err.stack);
