@@ -39,7 +39,7 @@ Tabel pinjam_buku menyimpan data saat user melakukan ```Pinjam_buku``` dari webs
 
 ### 3. ```Peminjam```
 
-Tabel peminjam menyimpan data ```user``` saat melakukan registrasi di website. Tabel ini memiliki attributes sebagai berikut :       
+Tabel peminjam menyimpan data ```Peminjam``` saat melakukan registrasi di website. Tabel ini memiliki attributes sebagai berikut :       
 ```
 1.	peminjam_id
 2.	name
@@ -59,13 +59,11 @@ Tabel Rating menyimpan data ```Rating``` pada buku di website. Tabel ini memilik
 ```
 ### 5. ```Admin```
 
-Tabel Rating menyimpan data ```Rating``` pada buku di website. Tabel ini memiliki attributes sebagai berikut :  
+Tabel Rating menyimpan data ```Amin``` pada buku di website. Tabel ini memiliki attributes sebagai berikut :  
 ```
-1.  rating_id
-1.	buku_id
-2.	judul
-3.	rating_buku
-4.	review
+1.  admin_id
+2.  username
+3.  password
 ```
 ---
 
