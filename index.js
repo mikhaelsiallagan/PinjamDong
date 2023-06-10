@@ -26,6 +26,8 @@ app.use(
     })
 );
 
+app.use(express.static('public'));
+
 var temp;
 
 //routing TABEL BUKU
@@ -323,7 +325,8 @@ router.post('/login', (req, res) => {
             req.session.peminjam_id = peminjam_id;
             req.session.visits = 1;
 
-            return res.send('User Berhasil melakukan login'); // Return 'done' if login is successful
+            return res.json({ success: true, message: 'Login successful' });
+            
             } else {
             return res.send('fail-password'); // Return 'fail-password' if the password is incorrect
             }
@@ -334,35 +337,36 @@ router.post('/login', (req, res) => {
 
 //melakukan registrasi peminjam
 router.post('/register', (req, res) => {
-    const {name, email, password} = req.body
+    const { name, email, password } = req.body;
     temp = req.session;
     temp.name = req.body.name;
     temp.email = req.body.email;
     temp.password = req.body.password;
-    const saltRounds = 10
-    //melakukan konfigurasi bycrpty disini
+    const saltRounds = 10;
+    // Perform bcrypt configuration here
     bcrypt.hash(temp.password, 8, (err, hashedPassword) => {
         if (err) {
-            alert("Hash Gagal")
+            console.error(err);
+            res.status(500).json({ success: false, message: 'Hashing failed' });
             return;
         }
-        //melakukan registrasi user baru ke dalam database
+        // Perform registration of the new user into the database
         const query = `INSERT INTO peminjam (name, email, password) VALUES
-        ('${temp.name}', '${temp.email}', '${hashedPassword}');`
+        ('${temp.name}', '${temp.email}', '${hashedPassword}');`;
         db.query(query, (err, results) => {
             if (err) {
                 console.error(err);
-                alert("Registrasi Gagal");
+                res.status(500).json({ success: false, message: 'Registration failed' });
                 return;
-              } else {
+            } else {
                 console.log(results);
-                console.log("Registrasi Berhasil");
-              }
+                console.log('Registration successful');
+                res.json({ success: true, message: 'Registration successful' });
+            }
         });
     });
-    
-    res.end('done');
 });
+
 
 //mengupdate akun peminjam
 router.put('/updatepeminjam',(req,res)=>{
@@ -428,6 +432,16 @@ router.post('/tambahratingbuku',(req,res)=>{
         res.send(results.rows)
     })
 })
+
+router.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            res.end('error')
+            return 
+        }
+        res.end('logout')
+    });
+});
 
 app.get('/session', (req, res) => {
     const sessionData = req.session;
