@@ -162,3 +162,43 @@ router.post('/tambahpinjaman',(req,res)=>{
         }
     })
  })
+
+ <script>
+ document.addEventListener("DOMContentLoaded", async() => {
+    const tableBody = $('#bookTable tbody');
+    tableBody.empty();
+  try {
+    const response = await axios.get('/listbuku');
+    console.log(response); // Log the response to inspect its structure
+
+    // Handle the successful login response here (e.g., redirect to menu page)
+    if (response.data.message === 'Data Found') {
+        const items = response.data.showItems;
+      items.forEach(function(item) {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.buku_id}</td>
+          <td>${item.judul}</td>
+          <td>${item.penulis}</td>
+          <td>${item.penerbit}</td>
+          <td>${item.tahun_terbit}</td>
+          <td>${item.jumlah_halaman}</td>
+          <td>${item.kategori_buku}</td>
+          <td>${item.status}</td>
+          <th>
+          <a type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#rentBookModal">Pinjam</a>
+          </th>
+        `;
+        tableBody.append(row);
+      });
+      $('bookTable').DataTable();
+    } else {
+      // Show error message to the user
+      console.error(response.data.message);
+    }
+  } catch (error) {
+    console.error(error);
+    // Handle login error here (e.g., show error message to the user)
+  }
+});
+</script>

@@ -45,8 +45,9 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script>
-    const loginButton = document.getElementById('loginButton');
 
+    const loginButton = document.getElementById('loginButton');
+        
     loginButton.addEventListener('click', async () => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -69,6 +70,7 @@
             // Handle login error here (e.g., show error message to the user)
         }
     });
+
     </script>
 
 </body>

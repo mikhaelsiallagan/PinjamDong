@@ -38,7 +38,21 @@ router.get('/listbuku',(req,res)=>{
             console.log(err)
             return
         }
-        res.send(results.rows)
+        //res.send(results.rows)
+        //res.json({ success: true, message: 'Data Found' });
+        res.json({message: 'Data Found', showItems: results.rows});
+    })
+})
+
+router.get('/satubuku',(req,res)=>{
+    db.query(`SELECT * FROM buku where buku_id='${buku_id}'`, (err,results)=>{
+        if(err){
+            console.log(err)
+            return
+        }
+        //res.send(results.rows)
+        //res.json({ success: true, message: 'Data Found' });
+        res.json({message: 'Data Found', showItems: results.rows});
     })
 })
 
