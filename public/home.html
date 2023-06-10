@@ -48,8 +48,6 @@
 
         <!-- search a book -->
         <section class="search py-5">
-            <h2 class="text-center py-5">Search A Book</h2>
-            <input type="text" class="form-control mx-auto" id="inputsearch" placeholder="name a book..." style="width: 50%;">
             <div class="container">
                 <h3 class="text-danger mt-5 text-center" id="para" style="display: none;">Not Found</h3>
                 <div class="row mt-3" id="card">
@@ -64,7 +62,6 @@
                                 <th>Jumlah Halaman</th>
                                 <th>Kategori</th>
                                 <th>Status</th>
-                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,34 +96,7 @@
 
 
         <!--modal pinjam-->
-        <div class="uprofile modal fade" id="rentBookModal" tabindex="-1" aria-labelledby="userProfileModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                        <h5 class="modal-title text-center" id="userProfileModalLabel">Pinjam Buku</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    <div class="mt-3">
-                        <h6>Judul Buku</h6>
-                        <p>John Doe</p>
-                    </div>
-                    <div class="mt-3">
-                        <h6>Tanggal Pinjam</h6>
-                        <p>johndoe@example.com</p>
-                    </div>
-                    <div class="mt-3">
-                        <h6>Tanggal Kembali</h6>
-                        <p>johndoe@example.com</p>
-                    </div>
-                    <div class="mt-3">
-                        <a type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#rentBookModal">Pinjam Buku</a>
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+  
 
 
 
@@ -147,44 +117,51 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
     
         <script>
-            document.addEventListener("DOMContentLoaded", async() => {
-               const tableBody = $('#bookTable tbody');
-               tableBody.empty();
-             try {
-               const response = await axios.get('/listbuku');
-               console.log(response); // Log the response to inspect its structure
-           
-               // Handle the successful login response here (e.g., redirect to menu page)
-               if (response.data.message === 'Data Found') {
-                   const items = response.data.showItems;
-                 items.forEach(function(item) {
-                   const row = document.createElement("tr");
-                   row.innerHTML = `
-                     <td>${item.buku_id}</td>
-                     <td>${item.judul}</td>
-                     <td>${item.penulis}</td>
-                     <td>${item.penerbit}</td>
-                     <td>${item.tahun_terbit}</td>
-                     <td>${item.jumlah_halaman}</td>
-                     <td>${item.kategori_buku}</td>
-                     <td>${item.status}</td>
-                     <th>
-                     <a type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#rentBookModal">Pinjam</a>
-                     </th>
-                   `;
-                   tableBody.append(row);
-                 });
-                 $('bookTable').DataTable();
-               } else {
-                 // Show error message to the user
-                 console.error(response.data.message);
-               }
-             } catch (error) {
-               console.error(error);
-               // Handle login error here (e.g., show error message to the user)
-             }
-           });
-           </script>
+            document.addEventListener("DOMContentLoaded", async () => {
+                const tableBody = $('#bookTable tbody');
+                tableBody.empty();
+                try {
+                    const response = await axios.get('/listbuku');
+                    console.log(response); // Log the response to inspect its structure
+        
+                    // Handle the successful login response here (e.g., redirect to menu page)
+                    if (response.data.message === 'Data Found') {
+                        const items = response.data.showItems;
+                        items.forEach(function (item) {
+                            const row = document.createElement("tr");
+                            row.innerHTML = `
+                                <td>${item.buku_id}</td>
+                                <td>${item.judul}</td>
+                                <td>${item.penulis}</td>
+                                <td>${item.penerbit}</td>
+                                <td>${item.tahun_terbit}</td>
+                                <td>${item.jumlah_halaman}</td>
+                                <td>${item.kategori_buku}</td>
+                                <td>${item.status}</td>
+                            `;
+                            tableBody.append(row);
+                        });
+                        $('#bookTable').DataTable();
+                    } else {
+                        // Show error message to the user
+                        console.error(response.data.message);
+                    }
+                } catch (error) {
+                    console.error(error);
+                    // Handle login error here (e.g., show error message to the user)
+                }
+            });
+        
+            const pinjamButtons = document.querySelectorAll('[data-bs-target="#rentBookModal"]');
+        
+            pinjamButtons.forEach((pinjamButton) => {
+                pinjamButton.addEventListener('click', (event) => {
+                    const bookId = event.target.dataset.bookId;
+                    console.log('Book ID:', bookId);
+                    // You can perform further actions with the book ID
+                });
+            });
+        </script>
 
            <script>
             const logoutbutton = document.getElementById('logoutbutton');
@@ -206,5 +183,6 @@
             });
 
            </script>
+
     </body>
 </html>
