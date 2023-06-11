@@ -6,6 +6,12 @@
     <link rel="stylesheet" href="./css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script defer src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script defer src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>PinjamDong - Admin</title>
 </head>
 <body>
@@ -38,249 +44,50 @@
     </nav>
 
     <!--content-->
-    <section class="container mt-5 mb-5 py-5" id="managebooks">
-        <div class="main-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="table-wapper">
-                        <div class="table-title">
-                            <div class="row">
-                                <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                                    <h2 class="ml-lg-2">Manage Books</h2>
-                                </div>
-                                <div class="col-sm-6 p-0 flex justify-content-lg-end justify-content-center">
-                                    <a href="#" class="btn btn-success" data-toggle="modal"><i class="fa-solid fa-plus"></i>
-                                    <span>Add Book</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <table class="table table-striped table-hover">
-                        <thead>
+    <section class="search py-5">
+        <div class="container">
+            <h3 class="text-danger mt-5 text-center" id="para" style="display: none;">Not Found</h3>
+            <div class="row mt-3" id="card">
+                <table class="table table-striped" id="bookTable">
+                    <thead>
                         <tr>
-                            <th>Book Id</th>
+                            <th>ID</th>
                             <th>Judul</th>
                             <th>Penulis</th>
                             <th>Penerbit</th>
                             <th>Tahun Terbit</th>
                             <th>Jumlah Halaman</th>
                             <th>Kategori</th>
-                            <th>Actions</th>
+                            <th>Status</th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <!-- query -->
-                        <tr>
-                            <th>1</th>
-                            <th>Laskar Pelangi</th>
-                            <th>Andrea Hirata</th>
-                            <th>Alex Komputindo</th>
-                            <th>2000</th>
-                            <th>350</th>
-                            <th>Jepang</th>
-                            <th>
-                                <a href="#" class="edit" data-toggle="modal"><i class="fa-solid fa-pen"></i></a>
-                                <a href="#" class="delete" data-toggle="modal"><i class="fa-solid fa-trash"></i></a>
-                            </th>
-                        </tr>
-                        </tbody>
-                        </table>
-                        <div class="clearfix">
-                            <div class="hint-text">
-                                Showing <b>1</b> out of <b>25</b> entries
-                            </div>
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#">Previous</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">4</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">5</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">Next</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- Add Book Modal -->
-                        <div id="addBookModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form>
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Add Book</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label>Judul</label>
-                                                <input type="text" class="form-control" required></div>
-                                            <div class="form-group">
-                                                <label>Penulis</label>
-                                                <input type="text" class="form-control" required></div>
-                                            <div class="form-group">
-                                                <label>Penerbit</label>
-                                                <input type="text" class="form-control" required></div>
-                                            <div class="form-group">
-                                                <label>Tahun Terbit</label>
-                                                <input type="text" class="form-control" required></div>
-                                            <div class="form-group">
-                                                <label>Jumlah Halaman</label>
-                                                <input type="text" class="form-control" required></div>
-                                            <div class="form-group">
-                                                <label>Kategori</label>
-                                                <input type="text" class="form-control" required></div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-success" value="Add"></div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Edit Book Modal -->
-                        <div id="editBookModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form>
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Add Book</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="form-group">
-                                                <label>Judul</label>
-                                                <input type="text" class="form-control" required></div>
-                                            <div class="form-group">
-                                                <label>Penulis</label>
-                                                <input type="text" class="form-control" required></div>
-                                            <div class="form-group">
-                                                <label>Penerbit</label>
-                                                <input type="text" class="form-control" required></div>
-                                            <div class="form-group">
-                                                <label>Tahun Terbit</label>
-                                                <input type="text" class="form-control" required></div>
-                                            <div class="form-group">
-                                                <label>Jumlah Halaman</label>
-                                                <input type="text" class="form-control" required></div>
-                                            <div class="form-group">
-                                                <label>Kategori</label>
-                                                <input type="text" class="form-control" required></div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-info" value="Save"></div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Delete Book Modal -->
-                        <div id="deleteEmployeeModal" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form>
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Delete Employee</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>
-                                                Are you sure you want to delete these Records?
-                                            </p>
-                                            <p class="text-warning">
-                                                <small>This action cannot be undone.</small>
-                                            </p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                            <input type="submit" class="btn btn-danger" value="Delete"></div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!--Close Modal--></div>
-                </div>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
         </div>
-        </section>
+    </section>
 
-        <section class="container mt-5 mb-5 py-5" id="managecust">
-            <div class="main-content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="table-wapper">
-                            <div class="table-title">
-                                <div class="row">
-                                    <div class="col-sm-6 p-0 flex justify-content-lg-start justify-content-center">
-                                        <h2 class="ml-lg-2">Manage Books</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <table class="table table-striped table-hover">
-                            <thead>
-                            <tr>
-                                <th>Account Id</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <!-- query -->
-                            <tr>
-                                <th>1</th>
-                                <th>Laskar Pelangi</th>
-                                <th>Andrea Hirata</th>
-                                <th>
-                                    <a href="#" class="delete" data-toggle="modal"><i class="fa-solid fa-trash"></i></a>
-                                </th>
-                            </tr>
-                            </tbody>
-                            </table>
-                            <div class="clearfix">
-                                <div class="hint-text">
-                                    Showing <b>1</b> out of <b>25</b> entries
-                                </div>
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <a href="#">Previous</a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a href="#" class="page-link">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">4</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">5</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">Next</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <section class="search py-5">
+        <div class="container">
+            <h3 class="text-danger mt-5 text-center" id="para" style="display: none;">Not Found</h3>
+            <div class="row mt-3" id="card">
+                <table class="table table-striped" id="userTable">
+                    <thead>
+                        <tr>
+                            <th>Account Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
-        </section>
+        </div>
+    </section>
 
 
     <!--footer-->
@@ -336,5 +143,77 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js" integrity="sha256-tG5mcZUtJsZvyKAxYLVXrmjKBVLd6VpVccqz/r4ypFE=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+        const tableBody = $('#bookTable tbody');
+        tableBody.empty();
+        try {
+            const response = await axios.get('/listbuku');
+            console.log(response); // Log the response to inspect its structure
+        
+            // Handle the successful login response here (e.g., redirect to menu page)
+            if (response.data.message === 'Data Found') {
+                const items = response.data.showItems;
+                items.forEach(function (item) {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${item.buku_id}</td>
+                    <td>${item.judul}</td>
+                    <td>${item.penulis}</td>
+                    <td>${item.penerbit}</td>
+                    <td>${item.tahun_terbit}</td>
+                    <td>${item.jumlah_halaman}</td>
+                    <td>${item.kategori_buku}</td>
+                    <td>${item.status}</td>
+                     `;
+                tableBody.append(row);
+                });
+                $('#bookTable').DataTable();
+                } else {
+                    // Show error message to the user
+                    console.error(response.data.message);
+                }
+        } catch (error) {
+            console.error(error);
+            // Handle login error here (e.g., show error message to the user)
+        }
+        });
+    </script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+    const tableBody = $('#userTable tbody');
+    tableBody.empty();
+    try {
+        const response = await axios.get('/listpeminjam');
+        console.log(response); // Log the response to inspect its structure
+    
+        // Handle the successful login response here (e.g., redirect to menu page)
+        if (response.data.message === 'Data Found') {
+            const items = response.data.showItems;
+            items.forEach(function (item) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${item.peminjam_id}</td>
+                <td>${item.name}</td>
+                <td>${item.email}</td>
+                 `;
+            tableBody.append(row);
+            });
+            $('#userTable').DataTable();
+            } else {
+                // Show error message to the user
+                console.error(response.data.message);
+            }
+    } catch (error) {
+        console.error(error);
+        // Handle login error here (e.g., show error message to the user)
+    }
+    });
+</script>
+
 </body>
 </html>

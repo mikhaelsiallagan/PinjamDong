@@ -287,8 +287,10 @@ router.post('/loginadmin', (req, res) => {
             // Set the user's username and visits in the session
             req.session.username = username;
             //req.session.visits = 1;
+            
+            return res.json({ success: true, message: 'Login successful' });
 
-            return res.send('Admin Berhasil melakukan login'); // Return 'done' if login is successful
+            //return res.send('Admin Berhasil melakukan login'); // Return 'done' if login is successful
             } else {
             return res.send('fail-password'); // Return 'fail-password' if the password is incorrect
             }
@@ -414,6 +416,19 @@ router.delete('/deletepeminjam',(req,res)=>{
             return
         }
         res.send(`Berhasil Menghapus data Peminjam dengan ID ${peminjam_id}`)
+    })
+})
+
+//menampilkan data peminjam
+router.get('/listpeminjam',(req,res)=>{
+    db.query('SELECT peminjam_id, name, email FROM peminjam', (err,results)=>{
+        if(err){
+            console.log(err)
+            return
+        }
+        //res.send(results.rows)
+        //res.json({ success: true, message: 'Data Found' });
+        res.json({message: 'Data Found', showItems: results.rows});
     })
 })
 
