@@ -89,11 +89,11 @@ Tabel Admin menyimpan data ```Admin``` pada buku di website. Tabel ini memiliki 
 
 ```Flowchart User:```
 
-![alt text](https://github.com/SistemBasisData2023/PinjamDong/blob/main/Information/Flowchart_Admin_PinjamDong.png)
+![alt text](https://github.com/SistemBasisData2023/PinjamDong/blob/main/Information/Flowchart_User_PinjamDong.png)
 
 ```Flowchart Admin:```
 
-![alt text](https://github.com/SistemBasisData2023/PinjamDong/blob/main/Information/Flowchart_User_PinjamDong.png)
+![alt text](https://github.com/SistemBasisData2023/PinjamDong/blob/main/Information/Flowchart_Admin_PinjamDong.png)
 
 
 </details>
