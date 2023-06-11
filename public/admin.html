@@ -19,8 +19,8 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-            <img src="./assets/logo.png" alt="Logo" width="37" height="29" class="d-inline-block align-text-top">
-            PinjamDong
+                <img src="./assets/logo.png" alt="Logo" width="37" height="29" class="d-inline-block align-text-top">
+                PinjamDong
             </a>
             <div class="navbar-nav mx-auto">
                 <li>
@@ -29,19 +29,111 @@
             </div>
     
             <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="#" id="addBookButton" data-bs-toggle="modal" data-bs-target="#addBookModal">Add Book</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="#" id="deleteBookButton" data-bs-toggle="modal" data-bs-target="#deleteBookModal">Delete Book</a>
+                </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-dark" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-user"></i>
-                    Admin
+                    <a class="nav-link dropdown-toggle text-dark" href="#" id="profileDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-user"></i>
+                        Admin
                     </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                    <li><a class="dropdown-item text-dark" href="#">Profile</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item text-dark" href="#">Log Out</a></li>
-                </ul>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item text-dark" href="#">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-dark" href="#">Log Out</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
     </nav>
+
+
+    <!-- Add Book Modal -->
+<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBookModalLabel">Add Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addBookForm">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="author" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="author" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="publisher" class="form-label">Publisher</label>
+                        <input type="text" class="form-control" id="publisher" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="year" class="form-label">Year of Publication</label>
+                        <input type="number" class="form-control" id="year" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pages" class="form-label">Number of Pages</label>
+                        <input type="number" class="form-control" id="pages" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Book Category</label>
+                        <select class="form-select" id="category" required>
+                            <option value="Novel">Novel</option>
+                            <option value="Novel Grafik">Novel Grafik</option>
+                            <option value="Ensiklopedi">Ensiklopedi</option>
+                            <option value="Biografi">Biografi</option>
+                            <option value="Sains">Sains</option>
+                            <option value="Bisnis">Bisnis</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" required>
+                            <option value="Tersedia">Tersedia</option>
+                            <option value="Tidak Tersedia">Tidak Tersedia</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="addBookbutton">Add Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Delete Book Modal -->
+    <div class="modal fade" id="deleteBookModal" tabindex="-1" aria-labelledby="deleteBookModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteBookModalLabel">Delete Book</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="deleteBookForm">
+                        <div class="mb-3">
+                            <label for="Buku_Id" class="form-label">Buku_Id</label>
+                            <input type="text" class="form-control" id="bukuid" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="deletebutton">Delete Book</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!--content-->
     <section class="search py-5">
@@ -59,6 +151,28 @@
                             <th>Jumlah Halaman</th>
                             <th>Kategori</th>
                             <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="search py-5">
+        <div class="container">
+            <h3 class="text-danger mt-5 text-center" id="para" style="display: none;">Not Found</h3>
+            <div class="row mt-3" id="card">
+                <table class="table table-striped" id="pinjambukuTable">
+                    <thead>
+                        <tr>
+                            <th>Pinjam Buku Id</th>
+                            <th>Peminjam Id</th>
+                            <th>Judul</th>
+                            <th>Tanggal Pinjam</th>
+                            <th>Tanggal Kembali</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -208,6 +322,99 @@
                 // Show error message to the user
                 console.error(response.data.message);
             }
+    } catch (error) {
+        console.error(error);
+        // Handle login error here (e.g., show error message to the user)
+    }
+    });
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+    const tableBody = $('#pinjambukuTable tbody');
+    tableBody.empty();
+    try {
+        const response = await axios.get('/listpinjambuku');
+        console.log(response); // Log the response to inspect its structure
+    
+        // Handle the successful login response here (e.g., redirect to menu page)
+        if (response.data.message === 'Data Found') {
+            const items = response.data.showItems;
+            items.forEach(function (item) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${item.pinjam_buku_id}</td>
+                <td>${item.peminjam_id}</td>
+                <td>${item.judul}</td>
+                <td>${item.tanggal_pinjam}</td>
+                <td>${item.tanggal_kembali}</td>
+                 `;
+            tableBody.append(row);
+            });
+            $('#userTable').DataTable();
+            } else {
+                // Show error message to the user
+                console.error(response.data.message);
+            }
+    } catch (error) {
+        console.error(error);
+        // Handle login error here (e.g., show error message to the user)
+    }
+    });
+</script>
+
+<!-- Optional: Add this script after the existing JavaScript code -->
+<script>
+        const addBookbutton = document.getElementById('addBookbutton');
+        addBookbutton.addEventListener('click', async (event) => {
+            event.preventDefault();
+            const judul = document.getElementById('title').value;
+            const penulis = document.getElementById('author').value;
+            const penerbit = document.getElementById('publisher').value;
+            const tahun_terbit = document.getElementById('year').value;
+            const jumlah_halaman = document.getElementById('pages').value;
+            const kategori_buku = document.getElementById('category').value;
+            const status = document.getElementById('status').value;
+
+            try {
+            const response = await axios.post('/tambahbuku', { judul, penulis, penerbit, tahun_terbit, jumlah_halaman, kategori_buku, status });
+            console.log(response); // Log the response to inspect its structure
+
+            // Handle the successful login response here (e.g., redirect to menu page)
+            if (response.data.message === 'Tambah Buku successful') {
+                //const username = response.data.user.name; // Assuming the username is returned in the response
+                window.alert("Tambah Buku successful");
+                window.location.href = '/admin.html'
+            } else {
+                // Show error message to the user
+                console.error(response.data.message);
+            }
+        } catch (error) {
+            console.error(error);
+            // Handle login error here (e.g., show error message to the user)
+        }
+        });
+</script>
+
+<script>
+    const deletebutton = document.getElementById('deletebutton');
+    deletebutton.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const buku_id = document.getElementById('bukuid').value;
+
+        try {
+        const response = await axios.post('/deletebuku', { buku_id });
+        console.log(response); // Log the response to inspect its structure
+
+        // Handle the successful login response here (e.g., redirect to menu page)
+        if (response.data.message === 'Delete Buku successful') {
+            //const username = response.data.user.name; // Assuming the username is returned in the response
+            window.alert("Delete Buku successful");
+            window.location.href = '/admin.html'
+        } else {
+            // Show error message to the user
+            console.error(response.data.message);
+        }
     } catch (error) {
         console.error(error);
         // Handle login error here (e.g., show error message to the user)

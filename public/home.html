@@ -29,7 +29,7 @@
     
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="#"><i class="fa fa-shopping-cart"></i> Cart</a>
+                    <a class="nav-link text-dark" href="#" data-bs-toggle="modal" data-bs-target="#rentBookModal"><i class="fa fa-shopping-cart"></i> Cart</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-dark" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-user"></i>
@@ -96,6 +96,37 @@
 
 
         <!--modal pinjam-->
+        <div class="rentbookmod modal fade" id="rentBookModal" tabindex="-1" aria-labelledby="userProfileModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title text-center" id="userProfileModalLabel"><i class="fas fa-user me-2"></i>Pinjam Buku</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="userId" class="form-label">User ID:</label>
+                                <input type="text" class="form-control" id="userIdForm" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="judul" class="form-label">Judul Buku:</label>
+                                <input type="text" class="form-control" id="judul" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tanggalPeminjaman" class="form-label">Tanggal Peminjaman:</label>
+                                <input type="date" class="form-control" id="tanggalPeminjaman" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tanggalPengembalian" class="form-label">Tanggal Pengembalian:</label>
+                                <input type="date" class="form-control" id="tanggalPengembalian" required>
+                            </div>
+                            <button type="button" class="btn btn-primary" id="submitpinjaman">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
   
 
 
@@ -183,7 +214,36 @@
             });
         </script>
 
-        <script>
+<script>
+    const submitpinjaman = document.getElementById('submitpinjaman');
+    submitpinjaman.addEventListener('click', async (event) => {
+        event.preventDefault();
+        const peminjam_id = document.getElementById('userIdForm').value;
+        const judul = document.getElementById('judul').value;
+        const tanggal_pinjam = document.getElementById('tanggalPeminjaman').value;
+        const tanggal_kembali = document.getElementById('tanggalPengembalian').value;
+
+        try {
+        const response = await axios.post('/tambahpinjaman', { peminjam_id, judul, tanggal_pinjam, tanggal_kembali });
+        console.log(response); // Log the response to inspect its structure
+
+        // Handle the successful login response here (e.g., redirect to menu page)
+        if (response.data.message === 'Tambah Peminjaman Buku successful') {
+            //const username = response.data.user.name; // Assuming the username is returned in the response
+            window.alert("Tambah Buku successful");
+            window.location.href = '/home.html'
+        } else {
+            // Show error message to the user
+            console.error(response.data.message);
+        }
+    } catch (error) {
+        console.error(error);
+        // Handle login error here (e.g., show error message to the user)
+    }
+    });
+</script>
+
+        <!-- <script>
             // Mendapatkan nilai nama dari sessionStorage
             const storedName = sessionStorage.getItem('name');
             const storedEmail = sessionStorage.getItem('email');
@@ -195,7 +255,7 @@
             nameUserElement.textContent = storedName;
             const nameEmailElement = document.getElementById('emailDetail');
             nameEmailElement.textContent = storedEmail;
-        </script>
+        </script> -->
 
     </body>
 </html>

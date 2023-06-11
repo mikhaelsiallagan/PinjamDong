@@ -58,26 +58,16 @@ router.get('/satubuku',(req,res)=>{
 
 //menambahkan daftar buku
 router.post('/tambahbuku',(req,res)=>{
-    temp = req.session;
-    temp.judul = req.body.judul;
-    temp.penulis = req.body.penulis;
-    temp.penerbit = req.body.penerbit;
-    temp.tahun_terbit = req.body.tahun_terbit;
-    temp.jumlah_halaman = req.body.jumlah_halaman;
-    temp.kategori_buku = req.body.kategori_buku;
-    temp.status = req.body.status;
-    if(temp.judul.length == 0 || temp.penulis.length == 0 || temp.penerbit.length == 0 || temp.tahun_terbit.length == 0 || temp.jumlah_halaman.length == 0 || temp.kategori_buku.length == 0 || temp.status.length == 0){
-        console.log("Tambah Buku Gagal, Data Buku Tidak Lengkap")
-        return
-    }
    const {judul, penulis, penerbit, tahun_terbit, jumlah_halaman, kategori_buku, status} = req.body;
-    db.query(`INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, jumlah_halaman, kategori_buku, status) VALUES ('${judul}', '${penulis}', '${penerbit}', ${tahun_terbit}, ${jumlah_halaman}, '${kategori_buku}', '${status}')`,
+   db.query(`INSERT INTO buku (judul, penulis, penerbit, tahun_terbit, jumlah_halaman, kategori_buku, status) VALUES ('${judul}', '${penulis}', '${penerbit}', ${tahun_terbit}, ${jumlah_halaman}, '${kategori_buku}', '${status}')`,
     (err)=>{
         if(err){
             console.log(err)
             return
         }
-        res.send("Berhasil Menambahkan Data Buku")
+        //res.send("Berhasil Menambahkan Data Buku")
+        //res.send("Berhasil Menambahkan Data Buku")
+        return res.json({ success: true, message: 'Tambah Buku successful' });
     })
 })
 
@@ -108,7 +98,7 @@ router.put('/updatebuku',(req,res)=>{
 })
 
 //menghapus daftar buku
-router.delete('/deletebuku',(req,res)=>{
+router.post('/deletebuku',(req,res)=>{
 
     const { buku_id } = req.body;
     db.query(`DELETE FROM buku WHERE buku_id=${buku_id}`,(err)=>{
@@ -116,7 +106,8 @@ router.delete('/deletebuku',(req,res)=>{
         console.log(err)
         return
     }
-    res.send(`Berhasil Menghapus Buku dengan ID ${buku_id}`)
+    //res.send(`Berhasil Menghapus Buku dengan ID ${buku_id}`)
+    return res.json({ success: true, message: 'Delete Buku successful' });
     })
 })
 
@@ -155,7 +146,7 @@ router.post('/tambahpinjaman',(req,res)=>{
              return
          } else {
 
-            db.query(`INSERT INTO pinjam_buku(peminjam_id, judul, tanggal_pinjam, tanggal_kembali) VALUES ('${peminjam_id}', '${judul}', '${tanggal_pinjam}', date '${tanggal_pinjam}' + 14)`,
+            db.query(`INSERT INTO pinjam_buku(peminjam_id, judul, tanggal_pinjam, tanggal_kembali) VALUES ('${peminjam_id}', '${judul}', '${tanggal_pinjam}', date '${tanggal_kembali}')`,
             (err)=>{
             if(err){
                 console.log(err)
@@ -170,14 +161,27 @@ router.post('/tambahpinjaman',(req,res)=>{
              return
          }
          console.log(`Berhasil menambahkan pinjaman buku '${judul}'`)
-         res.send("Buku Tersedia")
-         return
+         //res.send("Buku Tersedia")
+         return res.json({ success: true, message: 'Tambah Peminjaman Buku successful' });
+         //return
          })
      })
     }
     })
  })
  
+ router.get('/listpinjambuku',(req,res)=>{
+    db.query('SELECT * FROM pinjam_buku', (err,results)=>{
+        if(err){
+            console.log(err)
+            return
+        }
+        //res.send(results.rows)
+        //res.json({ success: true, message: 'Data Found' });
+        res.json({message: 'Data Found', showItems: results.rows});
+    })
+})
+
  //mengupdate status buku pinjam
 router.put('/updatestatuspinjam',(req,res)=>{
     const { judul } = req.body
