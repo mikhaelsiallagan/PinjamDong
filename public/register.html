@@ -67,6 +67,8 @@
 
                 // Handle the successful login response here (e.g., redirect to menu page)
                 if (response.data.message === 'Registration successful') {
+                    sessionStorage.setItem('name', name);
+                    sessionStorage.setItem('email', email);
                 //const username = response.data.user.name; // Assuming the username is returned in the response
                     window.alert("Registration successful");
                     window.location.href = '/home.html'

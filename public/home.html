@@ -163,7 +163,7 @@
             });
         </script>
 
-           <script>
+        <script>
             const logoutbutton = document.getElementById('logoutbutton');
 
             logoutbutton.addEventListener('click', async () => {
@@ -181,8 +181,21 @@
                     // Handle login error here (e.g., show error message to the user)
                 }
             });
+        </script>
 
-           </script>
+        <script>
+            // Mendapatkan nilai nama dari sessionStorage
+            const storedName = sessionStorage.getItem('name');
+            const storedEmail = sessionStorage.getItem('email');
+
+            const nameUser = document.getElementById('nameUser');
+            nameUser.textContent = storedName;
+
+            const nameUserElement = document.getElementById('nameDetail');
+            nameUserElement.textContent = storedName;
+            const nameEmailElement = document.getElementById('emailDetail');
+            nameEmailElement.textContent = storedEmail;
+        </script>
 
     </body>
 </html>
