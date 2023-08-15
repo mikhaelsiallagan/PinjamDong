@@ -9,7 +9,7 @@ Proyek ini dibuat oleh kelompok X24 yang terdiri dari :
 
 ---
 ## Gambaran Umum
-PinjamDong adalah website untuk meminjam buku secara online. Pengguna dapat mengakses berbagai macam buku yang tersedia dalam database PinjamDong dan melakukan reservasi peminjaman buku sesuai dengan ketentuan yang berlaku.
+PinjamDong adalah sebuah website untuk meminjam buku secara online. Pengguna dapat mengakses berbagai macam buku yang tersedia dalam database PinjamDong dan melakukan reservasi peminjaman buku sesuai dengan ketentuan yang berlaku. Proyek ini dilakukan sebagai pemenuhan proyek akhir Praktikum Sistem Basis Data.
 
 ---
 ## Penjelasan Tabel 
